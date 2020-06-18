@@ -94,7 +94,7 @@ resource "aws_iam_role" "lambda_execution" {
 }
 EOF
 
-  tags = locals.tags
+  tags = local.tags
 }
 
 resource "aws_lambda_function" "set_headers" {
@@ -108,5 +108,5 @@ resource "aws_lambda_function" "set_headers" {
   role             = aws_iam_role.lambda_execution.arn
   runtime          = "nodejs12.x"
 
-  tags = locals.tags
+  tags = local.tags
 }
