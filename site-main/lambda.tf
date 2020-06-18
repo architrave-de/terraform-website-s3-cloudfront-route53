@@ -94,19 +94,19 @@ resource "aws_iam_role" "lambda_execution" {
 }
 EOF
 
-  tags = var.tags
+  tags = locals.tags
 }
 
 resource "aws_lambda_function" "set_headers" {
   description      = "Managed by Terraform"
   filename         = "/tmp/lambda_zip_inline.zip"
-  function_name    = "set_headers_${var.domain}"
-  handler          = "set_headers_${var.domain}.handler"
+  function_name    = "set_headers_${var.bucket_name}"
+  handler          = "set_headers_${var.bucket_name}.handler"
   source_code_hash = data.archive_file.lambda_zip_inline.output_base64sha256
   provider         = aws.aws_cloudfront
   publish          = true
   role             = aws_iam_role.lambda_execution.arn
   runtime          = "nodejs12.x"
 
-  tags = var.tags
+  tags = locals.tags
 }
