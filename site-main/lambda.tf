@@ -6,9 +6,15 @@ provider "aws" {
   alias  = "aws_cloudfront"
 }
 
+resource "random_id" "id" {
+  keepers {
+    timestamp = timestamp() # force change on every execution
+  }
+}
+
 data "archive_file" "lambda_zip_inline" {
   type        = "zip"
-  output_path = "/tmp/lambda_zip_inline_${var.bucket_name}.zip"
+  output_path = "/tmp/lambda_zip_inline_${var.bucket_name}.${resource.random_id.id.dec}.zip"
   source {
     content  = <<EOF
 'use strict';
@@ -99,7 +105,7 @@ EOF
 
 resource "aws_lambda_function" "set_headers" {
   description      = "Managed by Terraform"
-  filename         = "/tmp/lambda_zip_inline_${var.bucket_name}.zip"
+  filename         = data.archive_file.lambda_zip_inline.output_path
   function_name    = "set_headers_${var.bucket_name}"
   handler          = "set_headers_${var.bucket_name}.handler"
   source_code_hash = data.archive_file.lambda_zip_inline.output_base64sha256
