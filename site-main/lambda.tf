@@ -10,6 +10,7 @@ resource "random_id" "id" {
   keepers {
     timestamp = timestamp() # force change on every execution
   }
+  byte_length = 4
 }
 
 data "archive_file" "lambda_zip_inline" {
