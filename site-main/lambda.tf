@@ -7,7 +7,7 @@ provider "aws" {
 }
 
 resource "random_id" "id" {
-  keepers {
+  keepers = {
     timestamp = timestamp() # force change on every execution
   }
   byte_length = 4
