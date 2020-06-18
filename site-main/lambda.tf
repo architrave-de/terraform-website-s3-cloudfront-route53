@@ -108,7 +108,7 @@ resource "aws_lambda_function" "set_headers" {
   description      = "Managed by Terraform"
   filename         = data.archive_file.lambda_zip_inline.output_path
   function_name    = "set_headers_${var.bucket_name}"
-  handler          = "set_headers_${var.bucket_name}.handler"
+  handler          = "main.handler"
   source_code_hash = data.archive_file.lambda_zip_inline.output_base64sha256
   provider         = aws.aws_cloudfront
   publish          = true
