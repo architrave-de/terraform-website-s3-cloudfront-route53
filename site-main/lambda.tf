@@ -109,5 +109,4 @@ resource "aws_lambda_function" "set_headers" {
   runtime          = "nodejs12.x"
 
   tags = var.tags
-  count = var.enable_custom_headers ? 1 : 0
 }
