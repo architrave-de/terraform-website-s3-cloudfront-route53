@@ -121,7 +121,7 @@ resource "aws_cloudfront_distribution" "website_cdn" {
     dynamic "lambda_function_association" {
       for_each = var.enable_custom_headers ? [1] : []
       content {
-        event_type = "origin-request"
+        event_type = "origin-response"
         lambda_arn = aws_lambda_function.set_headers.qualified_arn
       }
     }
