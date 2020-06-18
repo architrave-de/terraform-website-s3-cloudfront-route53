@@ -15,7 +15,7 @@ resource "random_id" "id" {
 
 data "archive_file" "lambda_zip_inline" {
   type        = "zip"
-  output_path = "/tmp/lambda_zip_inline_${var.bucket_name}.${resource.random_id.id.dec}.zip"
+  output_path = "/tmp/lambda_zip_inline_${var.bucket_name}.${random_id.id.dec}.zip"
   source {
     content  = <<EOF
 'use strict';
