@@ -8,7 +8,7 @@ provider "aws" {
 
 data "archive_file" "lambda_zip_inline" {
   type        = "zip"
-  output_path = "/tmp/lambda_zip_inline.zip"
+  output_path = "/tmp/lambda_zip_inline_${var.bucket_name}.zip"
   source {
     content  = <<EOF
 'use strict';
@@ -99,7 +99,7 @@ EOF
 
 resource "aws_lambda_function" "set_headers" {
   description      = "Managed by Terraform"
-  filename         = "/tmp/lambda_zip_inline.zip"
+  filename         = "/tmp/lambda_zip_inline_${var.bucket_name}.zip"
   function_name    = "set_headers_${var.bucket_name}"
   handler          = "set_headers_${var.bucket_name}.handler"
   source_code_hash = data.archive_file.lambda_zip_inline.output_base64sha256
